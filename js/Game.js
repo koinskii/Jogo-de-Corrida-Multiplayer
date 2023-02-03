@@ -40,9 +40,35 @@ class Game {
 
   play(){
     this.handleElements()
+    Player.getPlayersInfo()
+  
+    if (allPlayers != undefined) {
+      image(track,0,-height * 5, width, height * 6)
+      this.handlePlayerControls()
+      
+      var index = 0
 
-    image(track,0,-height * 5, width, height * 6)
+      for (var plr in allPlayers ) {
+        index++
+        var x = allPlayers[plr].positionX
+        var y = height - allPlayers[plr].positionY
+        cars[index - 1].position.x = x
+        cars[index - 1].position.y = y
+      }
 
-    drawSprites()
+      drawSprites()
+
+      }
+      
+    }
+
+    handlePlayerControls(){
+      if (keyIsDown(UP_ARROW)) {
+        player.positionY += 10
+        player.update()
+        
+      }
+    }
+    
   }
-}
+

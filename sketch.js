@@ -7,6 +7,7 @@ var playerCount,gameState;
 var track;
 var car1img, car2img
 var car1, car2, cars = []
+var allPlayers;
 function preload() {
   backgroundImage = loadImage("./assets/planodefundo.png");
   track = loadImage("./assets/track.jpg")

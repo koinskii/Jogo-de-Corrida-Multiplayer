@@ -45,6 +45,8 @@ class Form {
         player.name = this.input.value();
         player.index = playerCount;
         player.updateCount(playerCount)
+        player.addPlayer()
+        player.getDistance()
       }
     )
   }
