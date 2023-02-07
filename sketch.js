@@ -8,11 +8,16 @@ var track;
 var car1img, car2img
 var car1, car2, cars = []
 var allPlayers;
+var coinImg, fuelImg
+var coins, fuels
 function preload() {
   backgroundImage = loadImage("./assets/planodefundo.png");
   track = loadImage("./assets/track.jpg")
   car1img = loadImage("./assets/car1.png")
   car2img = loadImage("./assets/car2.png")
+
+  coinImg = loadImage("./assets/goldCoin.png")
+  fuelImg = loadImage("./assets/fuel.png")
 }
 
 function setup() {

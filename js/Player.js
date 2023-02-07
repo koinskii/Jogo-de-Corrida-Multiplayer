@@ -33,7 +33,8 @@ class Player {
     database.ref(playerIndex).set({
       name: this.name,
       positionX: this.positionX,
-      positionY: this.positionY
+      positionY: this.positionY,
+      score: this.score
     })
 
   }
@@ -51,7 +52,8 @@ class Player {
     var playerIndex = "players/player" + this.index
     database.ref(playerIndex).update({
       positionX: this.positionX,
-      positionY: this.positionY
+      positionY: this.positionY,
+      score: this.score
     })
   }
   
