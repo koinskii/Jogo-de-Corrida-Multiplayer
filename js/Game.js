@@ -1,6 +1,7 @@
 class Game {
   constructor() {
-    
+    this.resetTitle = createElement("h2")
+    this.resetButton = createButton("")
   }
 
   start() {
@@ -43,6 +44,13 @@ class Game {
   handleElements(){
     form.titleImg.class("gameTitleAfterEffects")
     form.hide()
+
+    this.resetTitle.html("reset")
+    this.resetTitle.position(width/2 + 240, 40)
+  this.resetTitle.class("resetText")
+
+    this.resetButton.position(width/2 +240, 100)
+    this.resetButton.class("resetButton")
   }
 
   getState(){
@@ -62,6 +70,7 @@ class Game {
   play(){
     this.handleElements()
     Player.getPlayersInfo()
+    this.handleResetButton()
   
     if (allPlayers != undefined) {
       image(track,0,-height * 5, width, height * 6)
@@ -101,12 +110,12 @@ class Game {
         player.update()
         
       }
-      if (keyIsDown(RIGHT_ARROW)) {
+      if (keyIsDown(RIGHT_ARROW)&& player.positionX < width/2 +265) {
         player.positionX += 5
         player.update()
         
       }
-      if (keyIsDown(LEFT_ARROW)) {
+      if (keyIsDown(LEFT_ARROW)&& player.positionX > width/3 -50) {
         player.positionX -= 5
         player.update()
       }
@@ -125,6 +134,17 @@ class Game {
         player.score += 21
         player.update()
         collected.remove()
+      })
+    }
+
+    handleResetButton(){
+      this.resetButton.mousePressed(() =>{
+        database.ref("/").set({
+          gameState: 0,
+          playerCount: 0,
+          players: {}
+        })
+        window.location.reload()
       })
     }
     
