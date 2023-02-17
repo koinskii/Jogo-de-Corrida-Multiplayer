@@ -34,7 +34,9 @@ class Player {
       name: this.name,
       positionX: this.positionX,
       positionY: this.positionY,
-      score: this.score
+      score: this.score,
+      life: this.life,
+      rank: this.rank
     })
 
   }
@@ -53,7 +55,9 @@ class Player {
     database.ref(playerIndex).update({
       positionX: this.positionX,
       positionY: this.positionY,
-      score: this.score
+      score: this.score,
+      life: this.life,
+      rank: this.rank
     })
   }
   
