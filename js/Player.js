@@ -23,6 +23,17 @@ class Player {
     })
   }
 
+  getCarsAtEnd(){
+    database.ref("carsAtEnd").on("value", data => {
+      this.rank = data.val()
+    })
+  }
+  
+  static updateCarsAtEnd(rank){
+    database.ref("/").update({
+      carsAtEnd: rank
+    })
+  }
   addPlayer(){
     if (this.index == 1) {
       this.positionX = width/2 - 100
