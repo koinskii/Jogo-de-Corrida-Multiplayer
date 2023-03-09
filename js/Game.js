@@ -8,6 +8,7 @@ class Game {
     this.leader2 = createElement("h2")
 
     this.playerMove = false
+    this.leftKeyActive = true
   }
 
   start() {
@@ -28,19 +29,64 @@ class Game {
 
     fuels = new Group();
     coins = new Group();
+    obstacles1 = new Group();
+    obstacles2 = new Group();
+    var obstacle1Positions = [
+      { x: width / 2 - 150, y: height - 1300, image: obstacle1Image },
+      { x: width / 2 + 250, y: height - 1800, image: obstacle1Image },
+      { x: width / 2 - 180, y: height - 3300, image: obstacle1Image },
+
+      { x: width / 2 - 150, y: height - 4300, image: obstacle1Image },
+      { x: width / 2, y: height - 5300, image: obstacle1Image },
+    ];
+
+    var obstacle2Positions = [
+      { x: width / 2 + 250, y: height - 800, image: obstacle2Image },
+      { x: width / 2 - 180, y: height - 2300, image: obstacle2Image },
+      { x: width / 2, y: height - 2800, image: obstacle2Image },
+
+      { x: width / 2 + 180, y: height - 3300, image: obstacle2Image },
+      { x: width / 2 + 250, y: height - 3800, image: obstacle2Image },
+      { x: width / 2 + 250, y: height - 4800, image: obstacle2Image },
+      { x: width / 2 - 180, y: height - 5500, image: obstacle2Image }
+    ];
 
     this.addSprite(fuels, 4, fuelImg, 0.02)
     this.addSprite(coins, 18, coinImg, 0.09)
+    this.addSprite(
+      obstacles1,
+      obstacle1Positions.length,
+      obstacle1Image,
+      0.04,
+      obstacle1Positions
+    );
+    this.addSprite(
+      obstacles2,
+      obstacle2Positions.length,
+      obstacle2Image,
+      0.04,
+      obstacle2Positions
+    );
+
   }
-  addSprite(spriteGroup, numberOfSprites, spriteImg, scale) {
+  addSprite(spriteGroup, numberOfSprites, spriteImg, scale, positions = []) {
     for (var i = 0; i < numberOfSprites; i++) {
       let x, y;
-      x = random(width / 2 + 150, width / 2 - 150)
+      if (positions.length > 0) {
+        x = positions [i].x
+        y = positions [i].y
+        spriteImg = positions [i].image
+      } else {
+        x = random(width / 2 + 150, width / 2 - 150)
       y = random(- height * 4.5, height - 400)
+      }
+      
 
       var sprite = createSprite(x, y)
       sprite.addImage(spriteImg);
       sprite.scale = scale
+
+  
 
       spriteGroup.add(sprite)
     }
@@ -94,7 +140,7 @@ class Game {
       image(track, 0, -height * 5, width, height * 6)
       this.handlePlayerControls()
       this.showLeaderBoard()
-    //  this.showLife()
+     this.showLife()
        this.showFuelBar()
 
       var index = 0
@@ -115,6 +161,7 @@ class Game {
 
           this.handleFuel(index)
           this.handleCoins(index)
+          this.handleObstaclesCollision(index)
 
         }
         
@@ -151,10 +198,13 @@ class Game {
       player.positionX += 5
       player.update()
 
+      this.leftKeyActive = false
+
     }
     if (keyIsDown(LEFT_ARROW) && player.positionX > width / 3 - 50) {
       player.positionX -= 5
       player.update()
+      this.leftKeyActive = true
     }
   }
 
@@ -182,6 +232,27 @@ class Game {
       collected.remove()
     })
   }
+
+  handleObstaclesCollision(index){
+    if (cars[index - 1].collide(obstacles1) || cars[index - 1].collide(obstacles2)) {
+      if (this.leftKeyActive) {
+        player.positionX +=100
+      } else {
+        player.positionX -=100
+      }
+      if (player.life > 0) {
+        player.life -= 185/4
+      }
+
+      if (player.life <= 0) {
+        gameState = 2;
+        this.gameOver2()
+      }
+      player.update()
+    }
+  }
+    
+  
 
   handleResetButton() {
     this.resetButton.mousePressed(() => {
@@ -232,16 +303,26 @@ class Game {
     })
   }
 
-  // showLife() {
-  //   push()
-  //   image(lifeimage, width / 2 - 130, height - player.positionY - 300, 20, 20)
-  //   fill("#FFFFFF")
-  //   rect(width / 2 - 100, height - player.positionY - 300, 185, 20)
-  //   fill("#F50057")
-  //   rect(width / 2 - 100, height - player.positionY - 300, player.life, 20)
-  //   noStroke()
-  //   pop()
-  // }
+  gameOver2(){
+    swal({
+      title: `Fim de Jogo!`,
+      text: "Sua vida acabou :(",
+      imageUrl: "https://cdn.shopify.com/s/files/1/1061/1924/products/Thumbs_Down_Sign_Emoji_Icon_ios10_grande.png",
+      imageSize: "100x100",
+      confirmButtonText: "Obrigado por jogar :)"
+    })
+  }
+
+  showLife() {
+    push()
+    image(lifeimage, width / 2 - 130, height - player.positionY - 350, 20, 20)
+    fill("#ffffff")
+    rect(width / 2 - 100, height - player.positionY - 350, 185, 20);
+    fill("red")
+    rect(width / 2 - 100, height - player.positionY - 350, player.life, 20)
+    noStroke()
+    pop()
+  }
 
   showFuelBar() {
     push()

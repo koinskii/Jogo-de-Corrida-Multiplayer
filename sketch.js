@@ -10,6 +10,8 @@ var car1, car2, cars = []
 var allPlayers;
 var coinImg, fuelImg, lifeimage
 var coins, fuels
+var obstacles1, obstacles2
+var obstacle1Image, obstacle2Image
 function preload() {
   backgroundImage = loadImage("./assets/planodefundo.png");
   track = loadImage("./assets/track.jpg")
@@ -18,7 +20,9 @@ function preload() {
 
   coinImg = loadImage("./assets/goldCoin.png")
   fuelImg = loadImage("./assets/fuel.png")
-  lifeimage - loadImage("./assets/life.png")
+  lifeimage = loadImage("./assets/life.png")
+  obstacle1Image= loadImage("./assets/obstacle1.png")
+  obstacle2Image= loadImage("./assets/obstacle2.png")
 }
 
 function setup() {
