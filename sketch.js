@@ -12,6 +12,7 @@ var coinImg, fuelImg, lifeimage
 var coins, fuels
 var obstacles1, obstacles2
 var obstacle1Image, obstacle2Image
+var explosion;
 function preload() {
   backgroundImage = loadImage("./assets/planodefundo.png");
   track = loadImage("./assets/track.jpg")
@@ -23,6 +24,7 @@ function preload() {
   lifeimage = loadImage("./assets/life.png")
   obstacle1Image= loadImage("./assets/obstacle1.png")
   obstacle2Image= loadImage("./assets/obstacle2.png")
+  explosion = loadImage("./assets/blast.png")
 }
 
 function setup() {
